@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	runhcsopts "github.com/Microsoft/hcsshim/internal/runhcs/options"
 	"os"
 	"path/filepath"
 
@@ -19,7 +20,6 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	runhcsopts "github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/options"
 	"github.com/Microsoft/hcsshim/internal/extendedtask"
 	"github.com/Microsoft/hcsshim/internal/oci"
 	"github.com/Microsoft/hcsshim/internal/shimdiag"
@@ -95,7 +95,7 @@ func (s *service) createInternal(ctx context.Context, req *task.CreateTaskReques
 	}
 	f.Close()
 
-	spec = oci.UpdateSpecFromOptions(spec, shimOpts)
+	spec = UpdateSpecFromOptions(spec, shimOpts)
 	//expand annotations after defaults have been loaded in from options
 	err = oci.ProcessAnnotations(ctx, &spec)
 	// since annotation expansion is used to toggle security features

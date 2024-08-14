@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"github.com/Microsoft/go-winio"
-	"github.com/containerd/containerd/namespaces"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
@@ -40,12 +39,7 @@ var ErrUnsafePath = errors.New("path is unsafe")
 //
 // The path to the logging driver can be provided via a URL's host/path. Additional arguments
 // can be passed to the logger via URL query params
-func NewBinaryIO(ctx context.Context, id string, uri *url.URL) (_ UpstreamIO, err error) {
-	ns, err := namespaces.NamespaceRequired(ctx)
-	if err != nil {
-		ns = namespaces.Default
-	}
-
+func NewBinaryIO(ctx context.Context, ns string, id string, uri *url.URL) (_ UpstreamIO, err error) {
 	var stdoutPipe, stderrPipe, waitPipe io.ReadWriteCloser
 
 	stdoutPipePath := fmt.Sprintf(binaryPipeFmt, id, "stdout")

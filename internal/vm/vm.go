@@ -3,9 +3,8 @@ package vm
 import (
 	"context"
 	"errors"
+	"github.com/Microsoft/hcsshim/internal/runhcs/stats"
 	"net"
-
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats"
 )
 
 var (

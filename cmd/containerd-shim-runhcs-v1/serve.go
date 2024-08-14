@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"fmt"
+	runhcsopts "github.com/Microsoft/hcsshim/internal/runhcs/options"
 	"io"
 	"net"
 	"os"
@@ -23,7 +24,6 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	runhcsopts "github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/options"
 	"github.com/Microsoft/hcsshim/internal/extendedtask"
 	hcslog "github.com/Microsoft/hcsshim/internal/log"
 	"github.com/Microsoft/hcsshim/internal/shimdiag"

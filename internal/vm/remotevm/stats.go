@@ -4,8 +4,8 @@ package remotevm
 
 import (
 	"context"
+	"github.com/Microsoft/hcsshim/internal/runhcs/stats"
 
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats"
 	"github.com/Microsoft/hcsshim/internal/vm"
 )
 

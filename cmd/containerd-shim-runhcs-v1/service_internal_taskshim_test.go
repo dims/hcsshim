@@ -6,6 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Microsoft/hcsshim/internal/runhcs/options"
+	"github.com/Microsoft/hcsshim/internal/runhcs/stats"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -13,8 +15,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/options"
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats"
 	"github.com/Microsoft/hcsshim/internal/hcsoci"
 	"github.com/Microsoft/hcsshim/pkg/ctrdtaskapi"
 	task "github.com/containerd/containerd/api/runtime/task/v2"

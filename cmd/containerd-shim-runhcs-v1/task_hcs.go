@@ -5,6 +5,8 @@ package main
 import (
 	"context"
 	"fmt"
+	runhcsopts "github.com/Microsoft/hcsshim/internal/runhcs/options"
+	"github.com/Microsoft/hcsshim/internal/runhcs/stats"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,6 +16,7 @@ import (
 	eventstypes "github.com/containerd/containerd/api/events"
 	"github.com/containerd/containerd/api/runtime/task/v2"
 	"github.com/containerd/containerd/api/types"
+	"github.com/containerd/containerd/namespaces"
 	"github.com/containerd/containerd/runtime"
 	"github.com/containerd/errdefs"
 	"github.com/containerd/typeurl/v2"
@@ -24,8 +27,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/Microsoft/go-winio/pkg/fs"
-	runhcsopts "github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/options"
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats"
 	"github.com/Microsoft/hcsshim/internal/cmd"
 	"github.com/Microsoft/hcsshim/internal/cow"
 	"github.com/Microsoft/hcsshim/internal/guestpath"
@@ -214,7 +215,13 @@ func newHcsTask(
 	if shimOpts != nil {
 		ioRetryTimeout = time.Duration(shimOpts.IoRetryTimeoutInSec) * time.Second
 	}
-	io, err := cmd.NewUpstreamIO(ctx, req.ID, req.Stdout, req.Stderr, req.Stdin, req.Terminal, ioRetryTimeout)
+
+	ns, err := namespaces.NamespaceRequired(ctx)
+	if err != nil {
+		ns = namespaces.Default
+	}
+
+	io, err := cmd.NewUpstreamIO(ctx, ns, req.ID, req.Stdout, req.Stderr, req.Stdin, req.Terminal, ioRetryTimeout)
 	if err != nil {
 		return nil, err
 	}
@@ -361,7 +368,12 @@ func (ht *hcsTask) CreateExec(ctx context.Context, req *task.ExecProcessRequest,
 		return errors.Wrapf(errdefs.ErrFailedPrecondition, "exec: '' in task: '%s' must be running to create additional execs", ht.id)
 	}
 
-	io, err := cmd.NewUpstreamIO(ctx, req.ID, req.Stdout, req.Stderr, req.Stdin, req.Terminal, ht.ioRetryTimeout)
+	ns, err := namespaces.NamespaceRequired(ctx)
+	if err != nil {
+		ns = namespaces.Default
+	}
+
+	io, err := cmd.NewUpstreamIO(ctx, ns, req.ID, req.Stdout, req.Stderr, req.Stdin, req.Terminal, ht.ioRetryTimeout)
 	if err != nil {
 		return err
 	}

@@ -47,7 +47,7 @@ type UpstreamIO interface {
 // NewUpstreamIO returns an UpstreamIO instance. Currently we only support named pipes and binary
 // logging driver for container IO. When using binary logger `stdout` and `stderr` are assumed to be
 // the same and the value of `stderr` is completely ignored.
-func NewUpstreamIO(ctx context.Context, id, stdout, stderr, stdin string, terminal bool, ioRetryTimeout time.Duration) (UpstreamIO, error) {
+func NewUpstreamIO(ctx context.Context, ns, id, stdout, stderr, stdin string, terminal bool, ioRetryTimeout time.Duration) (UpstreamIO, error) {
 	u, err := url.Parse(stdout)
 
 	// Create IO with named pipes.
@@ -60,7 +60,7 @@ func NewUpstreamIO(ctx context.Context, id, stdout, stderr, stdin string, termin
 		return nil, fmt.Errorf("scheme must be 'binary', got: '%s'", u.Scheme)
 	}
 
-	return NewBinaryIO(ctx, id, u)
+	return NewBinaryIO(ctx, ns, id, u)
 }
 
 // relayIO is a glorified io.Copy that also logs when the copy has completed.

@@ -4,10 +4,10 @@ package main
 
 import (
 	"context"
+	"github.com/Microsoft/hcsshim/internal/runhcs/options"
+	"github.com/Microsoft/hcsshim/internal/runhcs/stats"
 	"time"
 
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/options"
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats"
 	"github.com/Microsoft/hcsshim/internal/shimdiag"
 	"github.com/Microsoft/hcsshim/pkg/ctrdtaskapi"
 	v1 "github.com/containerd/cgroups/v3/cgroup1/stats"

@@ -4,6 +4,7 @@ package uvm
 
 import (
 	"context"
+	"github.com/Microsoft/hcsshim/internal/runhcs/stats"
 	"strings"
 
 	"github.com/Microsoft/go-winio/pkg/guid"
@@ -12,7 +13,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/sys/windows"
 
-	"github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats"
 	hcsschema "github.com/Microsoft/hcsshim/internal/hcs/schema2"
 	"github.com/Microsoft/hcsshim/internal/log"
 )
